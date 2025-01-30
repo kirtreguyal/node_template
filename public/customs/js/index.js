@@ -2,6 +2,13 @@ $(document).ready(function() {
     $("#products-container")
         .on("click", ".decrease-qty-btn, .increase-qty-btn", handleChangeQuantity)
         .on("submit", ".add-to-cart-form", handleClickAddToCart)
+        .on("click", ".card img", function(){
+            const product_img = $(this);
+            const modal = $("#show-image-modal");
+
+            console.log(product_img.attr("src"));
+            modal.find("img").attr("src", product_img.attr("src"));
+        })
 });
 
 /* Handles the submission of the add-to-cart form. */

@@ -50,6 +50,7 @@ function handleSubmitRemoveToCart(){
 
     $.post(remove_to_cart_form.attr("action"), remove_to_cart_form.serialize(), (result) => {
         if(result.status){
+            alert("Product removed from cart.");
             location.reload();
         }
         else{

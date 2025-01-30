@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="/vendors/css/bootstrap.css">
+    <script src="/vendors/js/jquery.js"></script>
+    <script src="/vendors/js/bootstrap.bundle.min.js"></script>
+    <script src="/customs/js/index.js"></script>
+    <script src="/customs/js/cart.js"></script>
+</head>
+    <body>
+        <%- include("partials/header") %>
+
+        <div class="d-flex justify-content-center"> 
+            <!-- Cart Section -->
+            <div id="carts-container" class="col-lg-4 m-3 p-3">
+                <h4 class="text-center mb-4">Cart</h4>
+                <div class="card">
+                    <div class="card-header cart-header bg-primary text-white">Shopping Cart</div>
+                    <div class="card-body p-3">
+                        <table class="table table-sm table-striped cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Qty</th>
+                                    <th>Action</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% let total_price = 0;
+                                if(products_on_cart.length){
+                                    products_on_cart.forEach(product => { 
+                                        const sub_total = product.price * product.quantity;
+                                        total_price += sub_total; %>
+                                        <tr class="cart-product">
+                                            <td class="name"><%= product.name %></td>
+                                            <td class="price">₱<span class="price"><%= product.price %></span></td>
+                                            <td>
+                                                <form action="/carts/update" method="POST" class="update-cart-form d-inline">
+                                                    <input type="hidden" name="product_id" value="<%= product.id %>">
+                                                    <div class="input-group input-group-sm">
+                                                        <button type="button" class="decrease-qty-btn btn btn-outline-secondary">-</button>
+                                                        <input type="number" name="quantity" value="<%= product.quantity %>" min="1" class="form-control text-center" style="max-width: 50px;">
+                                                        <button type="button" class="increase-qty-btn btn btn-outline-secondary">+</button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form action="/carts/remove-product" method="POST" class="remove-to-cart-form d-inline">
+                                                    <input type="hidden" name="product_id" value="<%= product.id %>">
+                                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                                </form>
+                                            </td>
+                                            <td class="subtotal">₱<span class="subtotal"><%= sub_total %></span>.00</td>
+                                        </tr>
+                                    <% }) %>
+                                    <tr>
+                                        <td colspan="4" class="text-end fw-bold">Total:</td>
+                                        <td>₱<span id="overall-total"><%= total_price %></span>.00</td>
+                                    </tr>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5" class="text-center">Your cart is empty.</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% if(products_on_cart.length){ %>
+                        <div class="card-footer text-center">
+                            <form class="checkout-form" action="/carts/checkout" method="POST">
+                                <button type="submit" class="btn btn-success">Proceed to Checkout</button>
+                            </form>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -8,7 +8,6 @@ class ProductController {
 
         try{
             products = await new ProductModel().fetchProductRecord();    
-            products_on_cart = await new UserCartProductModel().fetchProductsOnCart();    
         }
         catch(error){
             console.log(error);
