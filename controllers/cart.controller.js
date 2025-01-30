@@ -5,13 +5,13 @@ class ProductController {
         let products_on_cart = [];
 
         try{
-            products_on_cart = await new UserCartProductModel().fetchProductsOnCart(req.session.user.id);    
+            products_on_cart = await new UserCartProductModel().fetchProductsOnCart();    
         }
         catch(error){
             console.log(error);
         }
 
-        res.render("cart", { user: req.session.user, products_on_cart });
+        res.render("cart", { products_on_cart });
     }
 
     updateCartData = async (req, res) => {
@@ -23,8 +23,8 @@ class ProductController {
     
             const [ cart_product ] = await userCartProductModel.fetchUserCartProductRecord(
                 "id",
-                "user_id = ? AND product_id = ?",
-                [req.session.user.id, product_id]
+                "product_id = ?",
+                [product_id]
             );
 
             if(cart_product?.id){
@@ -51,8 +51,8 @@ class ProductController {
 
             const [ cart_product ] = await userCartProductModel.fetchUserCartProductRecord(
                 "id",
-                "user_id = ? AND product_id = ?",
-                [req.session.user.id, product_id]
+                "product_id = ?",
+                [product_id]
             );
 
             if(cart_product?.id){
@@ -75,7 +75,7 @@ class ProductController {
 
         try{
             const userCartProductModel = new UserCartProductModel();
-            const { affectedRows } = await userCartProductModel.clearUserCartProducts(req.session.user.id);
+            const { affectedRows } = await userCartProductModel.clearUserCartProducts();
             
             if(affectedRows){
                 response_data.status = !!affectedRows;

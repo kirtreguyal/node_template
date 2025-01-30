@@ -14,16 +14,14 @@ class UserCartProductModel extends DatabaseModel{
         ));
     }
 
-    fetchProductsOnCart = async (user_id) => {
+    fetchProductsOnCart = async () => {
         return await this.executeQuery(format(`
         SELECT
             user_cart_products.quantity,
             products.id, products.name, products.description, products.price
         FROM user_cart_products
         INNER JOIN products
-            ON products.id = user_cart_products.product_id
-        WHERE user_id = ?;`, 
-        [user_id]
+            ON products.id = user_cart_products.product_id`
         ));
     }
 
@@ -40,7 +38,7 @@ class UserCartProductModel extends DatabaseModel{
     }
     
     clearUserCartProducts = async (user_id) => {
-        return await this.executeQuery(format("DELETE FROM user_cart_products WHERE user_id = ?", [user_id]));
+        return await this.executeQuery(format("DELETE FROM user_cart_products"));
     }
 }
 
