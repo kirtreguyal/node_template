@@ -14,6 +14,7 @@
 - Node.js
 - MySQL
 - Open MySQL installer and install MySQL Workbench
+- https://github.com/libracoder/bootstrap-offline-docs
 
 ## Steps to Run the Template
 
